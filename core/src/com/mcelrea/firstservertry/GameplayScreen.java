@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import javax.swing.JOptionPane;
+
 /**
  * Created by mcelrea on 2/7/2017.
  */
@@ -194,7 +196,16 @@ public class GameplayScreen implements Screen{
 
     //thomas
     private void sheriffAI() {
+        if (player.getRole().equals(Role.SHERIFF)) {
+            int choice = Integer.parseInt(JOptionPane.showInputDialog(null, "choose one player (1- " + otherPlayers.size + ")"));
+            if (otherPlayers.get(choice - 1).getRole().equals(Role.MAFIA)) {
+                JOptionPane.showMessageDialog(null, "True");
+            } else
+                JOptionPane.showMessageDialog(null, "False;");
 
+            gameState = DOCTOR;
+        }
+        gameState = DOCTOR;
     }
 
     //mcelrea
@@ -225,7 +236,7 @@ public class GameplayScreen implements Screen{
             }
         }
 
-        gameState = DOCTOR;
+        gameState = SHERIFF;
     }
 
     private Array<Player> getMafia() {
