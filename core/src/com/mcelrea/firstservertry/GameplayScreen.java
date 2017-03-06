@@ -191,8 +191,40 @@ public class GameplayScreen implements Screen{
 
     //portillo
     private void doctorAI() {
+        boolean playerProtectedNotChosen = true;
 
+        player.assignRole(new Role(Role.DOCTOR));
+        if(player.getRole().equals(Role.DOCTOR )){
+            System.out.println("Player chooses");
+            while(playerProtectedNotChosen){
+                int userChoice = userDoctorInput();
+                if(otherPlayers.get(userChoice) == lastKill){
+                    System.out.println(otherPlayers.get(userChoice).getUsername() + " is protected by your newt paste!");
+                    otherPlayers.get(userChoice).setAlive(true);
+                    playerProtectedNotChosen = false;
+                }else if(otherPlayers.get(userChoice).isAlive()){
+                    JOptionPane.showMessageDialog(null, "You protected " + otherPlayers.get(userChoice).getUsername() + " for no reason. What a shit doctor.");
+                    playerProtectedNotChosen = false;
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"That villager is already dead dumbass!");
+                }
+            }//end of while
+        }else {
+            while(playerProtectedNotChosen){
+                int choice = (int)(Math.random() * otherPlayers.size);
+                if(otherPlayers.get(choice).isAlive()){
+                    System.out.println(otherPlayers.get(choice).getUsername() + " is protected by voodoo magic!");
+                    playerProtectedNotChosen = false;
+                }
+            }
+        }
     }
+    private int userDoctorInput() {
+        String choiceInput =  JOptionPane.showInputDialog(null, "Which villager would you like to protect?");
+        return Integer.parseInt(choiceInput);
+    }
+
 
     //thomas
     private void sheriffAI() {
